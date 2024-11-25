@@ -261,8 +261,13 @@ const loginHandler = async () => {
 };
 
 const optionsHandler = () => {
-    return response(200, {});
+    return response(200, {
+        'Access-Control-Allow-Origin': 'https://amspcnhs.netlify.app',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    });
 };
+
 
 // Modify the exports.handler to include the OPTIONS method
 exports.handler = async (event, context) => {
