@@ -241,9 +241,8 @@ const loginHandler = async () => {
         user = "ubelo"
         pass = "123123"
 
-        if (username == user && password == pass)
-
-        return response(200, {
+        if (username == user && password == pass) { 
+            return response(200, {
             "token": "string",
             "user": {
                 "id": "1",
@@ -251,10 +250,13 @@ const loginHandler = async () => {
                 "role": "admin"
             }
             });
+        }
+
+        
     }
 
-    return response(200, {
-        connection_status: "success"
+    return response(500, {
+        connection_status: "failed"
     });
 };
 
