@@ -121,6 +121,12 @@ const attendanceRecords = [
 // Utility to handle API responses
 const response = (statusCode, body) => ({
     statusCode,
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'https://amspcnhs.netlify.app', // Allow requests from the frontend
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',  // Allow methods
+        'Access-Control-Allow-Headers': 'Content-Type' // Allow specific headers
+    },
     body: JSON.stringify(body),
 });
 
@@ -229,9 +235,18 @@ const healthHandler = async () => {
     });
 };
 
-// Netlify Function Handlers Export
+const optionsHandler = () => {
+    return response(200, {});
+};
+
+// Modify the exports.handler to include the OPTIONS method
 exports.handler = async (event, context) => {
-    const { path } = event;
+    const { path, httpMethod } = event;
+
+    // Handle preflight CORS requests
+    if (httpMethod === 'OPTIONS') {
+        return optionsHandler();
+    }
 
     if (path === '/api/attendance') return attendanceHandler(event);
     if (path === '/api/dashboard') return dashboardHandler(event);
