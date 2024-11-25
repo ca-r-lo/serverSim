@@ -2,9 +2,121 @@
 const { Handler } = require('@netlify/functions');
 
 // Sample data for demonstration purposes
-let attendanceRecords = [];
-let sections = [];
-let students = [];
+// Sample data for demonstration purposes
+const sections = [
+    { id: 1, name: "Grade 7-A", gradeLevel: 7 },
+    { id: 2, name: "Grade 7-B", gradeLevel: 7 },
+    { id: 3, name: "Grade 8-A", gradeLevel: 8 },
+    { id: 4, name: "Grade 8-B", gradeLevel: 8 },
+    { id: 5, name: "Grade 9-A", gradeLevel: 9 }
+];
+
+const students = [
+    { 
+        id: 1, 
+        firstName: "John", 
+        middleName: "Michael", 
+        lastName: "Smith", 
+        age: 13, 
+        lrn: "123456789012", 
+        section: sections[0]
+    },
+    { 
+        id: 2, 
+        firstName: "Emma", 
+        middleName: "Rose", 
+        lastName: "Johnson", 
+        age: 13, 
+        lrn: "123456789013", 
+        section: sections[0]
+    },
+    { 
+        id: 3, 
+        firstName: "James", 
+        middleName: "Peter", 
+        lastName: "Williams", 
+        age: 14, 
+        lrn: "123456789014", 
+        section: sections[1]
+    },
+    { 
+        id: 4, 
+        firstName: "Sophia", 
+        middleName: "Grace", 
+        lastName: "Brown", 
+        age: 14, 
+        lrn: "123456789015", 
+        section: sections[1]
+    },
+    { 
+        id: 5, 
+        firstName: "Oliver", 
+        middleName: "Thomas", 
+        lastName: "Davis", 
+        age: 15, 
+        lrn: "123456789016", 
+        section: sections[2]
+    }
+];
+
+const attendanceRecords = [
+    {
+        id: 1,
+        student_id: 1,
+        date: "2024-03-25",
+        status: "PRESENT",
+        time: "07:45:00",
+        section: sections[0].name
+    },
+    {
+        id: 2,
+        student_id: 2,
+        date: "2024-03-25",
+        status: "LATE",
+        time: "08:15:00",
+        section: sections[0].name
+    },
+    {
+        id: 3,
+        student_id: 3,
+        date: "2024-03-25",
+        status: "ABSENT",
+        time: null,
+        section: sections[1].name
+    },
+    {
+        id: 4,
+        student_id: 1,
+        date: "2024-03-26",
+        status: "PRESENT",
+        time: "07:50:00",
+        section: sections[0].name
+    },
+    {
+        id: 5,
+        student_id: 2,
+        date: "2024-03-26",
+        status: "PRESENT",
+        time: "07:55:00",
+        section: sections[0].name
+    },
+    {
+        id: 6,
+        student_id: 4,
+        date: "2024-03-26",
+        status: "EXCUSED",
+        time: null,
+        section: sections[1].name
+    },
+    {
+        id: 7,
+        student_id: 5,
+        date: "2024-03-26",
+        status: "PRESENT",
+        time: "07:45:00",
+        section: sections[2].name
+    }
+];
 
 // Utility to handle API responses
 const response = (statusCode, body) => ({
