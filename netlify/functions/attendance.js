@@ -235,6 +235,29 @@ const healthHandler = async () => {
     });
 };
 
+const loginHandler = async () => {
+    if (httpMethod === 'POST') {
+        const { username, password } = JSON.parse(body);
+        user = "ubelo"
+        pass = "123123"
+
+        if (username == user && password == pass)
+
+        return response(200, {
+            "token": "string",
+            "user": {
+                "id": "1",
+                "username": user,
+                "role": "admin"
+            }
+            });
+    }
+
+    return response(200, {
+        connection_status: "success"
+    });
+};
+
 const optionsHandler = () => {
     return response(200, {});
 };
@@ -255,6 +278,7 @@ exports.handler = async (event, context) => {
     if (path === '/api/sections') return sectionsHandler(event);
     if (path === '/api/students') return studentsHandler(event);
     if (path === '/api/health') return healthHandler(event);
+    if (path === '/api/auth/login') return loginHandler(event);
 
     return response(404, { message: "Endpoint Not Found" });
 };
