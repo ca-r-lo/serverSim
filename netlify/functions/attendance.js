@@ -223,6 +223,12 @@ const studentsHandler = async (event) => {
     return response(405, { message: "Method Not Allowed" });
 };
 
+const healthHandler = async () => {
+    return response(200, {
+        connection_status: "success"
+    });
+};
+
 // Netlify Function Handlers Export
 exports.handler = async (event, context) => {
     const { path } = event;
@@ -233,6 +239,7 @@ exports.handler = async (event, context) => {
     if (path === '/api/stats') return statsHandler(event);
     if (path === '/api/sections') return sectionsHandler(event);
     if (path === '/api/students') return studentsHandler(event);
+    if (path === '/api/health') return healthHandler(event);
 
     return response(404, { message: "Endpoint Not Found" });
 };
