@@ -320,11 +320,12 @@ exports.handler = async (event, context) => {
     if (path === '/api/dashboard') return dashboardHandler(event);
     if (path === '/api/reports') return reportsHandler(event);
     if (path === '/api/stats') return statsHandler(event);
-    if (path === '/api/home/sections') return sectionsHandler(event);
+    if (path === '/api/sections') return sectionsHandler(event);
     if (path === '/api/students') return studentsHandler(event);
     if (path === '/api/health') return healthHandler(event);
     if (path === '/api/auth/login') return loginHandler(event);
-    if (path === '/api/home/students') return homeStudentHandler(event);
+    if (path === '/home/students') return homeStudentHandler(event);
+    if (path === '/home/sections') return homeStudentHandler(event);
 
     return response(404, { message: "Endpoint Not Found" });
 };
