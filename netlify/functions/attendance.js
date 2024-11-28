@@ -209,10 +209,32 @@ const studentsHandler = async (event) => {
     if (httpMethod === 'GET') {
         const { section } = queryStringParameters || {};
         let results = students;
+
+        // Filter by section if a query parameter is provided
         if (section) {
             results = results.filter(student => student.section.name === section);
         }
-        return response(200, { students: results });
+
+        // Transform data into the expected format
+        const formattedResults = results.map(student => {
+            // Find today's attendance record for the student
+            const today = new Date().toISOString().split('T')[0];
+            const attendance = attendanceRecords.find(record => 
+                record.student_id === student.id && record.date === today
+            );
+
+            // Format the response
+            return {
+                id: student.id,
+                name: `${student.firstName} ${student.middleName} ${student.lastName}`,
+                section: student.section.name,
+                status: attendance ? attendance.status : "UNKNOWN", // Default to "UNKNOWN" if no record
+                timeIn: attendance ? attendance.time : null, // Null if no attendance record
+                timeOut: "15:00:00" // Placeholder for now; update with actual data if available
+            };
+        });
+
+        return response(200, formattedResults);
     }
 
     if (httpMethod === 'POST') {
@@ -228,6 +250,8 @@ const studentsHandler = async (event) => {
 
     return response(405, { message: "Method Not Allowed" });
 };
+
+
 
 const healthHandler = async () => {
     return response(200, {
