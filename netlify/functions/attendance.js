@@ -235,37 +235,41 @@ const healthHandler = async () => {
     });
 };
 
-const loginHandler = async () => {
+const loginHandler = async (event) => {
+    const { httpMethod, body } = event;
+
     if (httpMethod === 'POST') {
         const { username, password } = JSON.parse(body);
-        user = "ubelo"
-        pass = "123123"
+        const user = "ubelo";
+        const pass = "123123";
 
-        if (username == user && password == pass) { 
+        if (username === user && password === pass) { 
             return response(200, {
-            "token": "string",
-            "user": {
-                "id": "1",
-                "username": user,
-                "role": "admin"
-            }
+                "token": "string",
+                "user": {
+                    "id": "1",
+                    "username": user,
+                    "role": "admin"
+                }
             });
+        } else {
+            return response(401, { message: "Invalid credentials" });
         }
-
-        
     }
 
-    return response(500, {
-        connection_status: "failed"
-    });
+    return response(405, { message: "Method Not Allowed" });
 };
 
+
 const optionsHandler = () => {
-    return response(200, {
-        'Access-Control-Allow-Origin': 'https://amspcnhs.netlify.app',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    });
+    return {
+        statusCode: 204, // No content
+        headers: {
+            'Access-Control-Allow-Origin': 'https://amspcnhs.netlify.app',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        }
+    };
 };
 
 
