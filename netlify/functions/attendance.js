@@ -296,15 +296,21 @@ const optionsHandler = () => {
     };
 };
 
-const homeStudentHandler = () => {
-    return {
-        statusCode: 204, // No content
-        headers: {
-            'Access-Control-Allow-Origin': 'https://amspcnhs.netlify.app',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type'
+const homeStudentHandler = async () => {
+    const formattedResults = students.map(student => ({
+        id: student.id,
+        firstName: student.firstName,
+        middleName: student.middleName,
+        lastName: student.lastName,
+        age: student.age,
+        lrn: student.lrn,
+        section: {
+            id: student.section.id,
+            name: student.section.name
         }
-    };
+    }));
+
+    return response(200, { students: formattedResults });
 };
 
 // Modify the exports.handler to include the OPTIONS method
